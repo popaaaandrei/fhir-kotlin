@@ -1,6 +1,6 @@
 
 group = "io.h4h"
-version = "0.3.4"
+version = "0.3.5"
 
 
 plugins {
@@ -67,7 +67,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     // base definitions of FHIR data structures
-    api("io.h4h:fhir-base-kotlin:0.2.2")
+    api("io.h4h:fhir-base-kotlin:0.2.3")
 
     // Jackson annocations
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.16.1")

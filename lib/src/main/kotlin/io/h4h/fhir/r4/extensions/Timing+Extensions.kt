@@ -34,6 +34,11 @@ fun Timing.validate() {
     // guard
     val repeat = this.repeat ?: return
 
+    // extract these properties in a val, otherwise the smart cast for null check will not work
+    val repeatPeriod = repeat.period
+    val repeatDuration = repeat.duration
+    val repeatWhen = repeat.`when`
+
     when {
         // Rule: if there's a duration, there needs to be duration units
         (repeat.duration != null && repeat.durationUnit == null)
@@ -44,7 +49,7 @@ fun Timing.validate() {
         -> throw TimingException("Rule: if there's a duration, there needs to be duration units, and vice versa")
 
         // Rule: duration SHALL be a non-negative value
-        (repeat.duration != null && repeat.duration < 0)
+        (repeatDuration != null && repeatDuration < 0)
         -> throw TimingException("Rule: if there's a duration, it SHALL be a non-negative value")
 
         // Rule: If there's a durationMax, there must be a duration
@@ -60,7 +65,7 @@ fun Timing.validate() {
         -> throw TimingException("Rule: if there's a period, there needs to be period units, and vice versa")
 
         // Rule: period SHALL be a non-negative value
-        (repeat.period != null && repeat.period < 0)
+        (repeatPeriod != null && repeatPeriod < 0)
         -> throw TimingException("Rule: if there's a period, it SHALL be a non-negative value")
 
         // Rule: Rule: If there's a durationMax, there must be a duration
@@ -80,8 +85,8 @@ fun Timing.validate() {
         -> throw TimingException("Rule: If there's a countMax, there must be a count")
 
         // Rule: If there's an offset, there must be a when (and not C, CM, CD, CV)
-        (repeat.offset != null && (repeat.`when` == null ||
-            repeat.`when`.any { it == EventTiming.C || it == EventTiming.CM || it == EventTiming.CD || it == EventTiming.CV }))
+        (repeat.offset != null && (repeatWhen == null ||
+            repeatWhen.any { it == EventTiming.C || it == EventTiming.CM || it == EventTiming.CD || it == EventTiming.CV }))
         -> throw TimingException("Rule: If there's an offset, there must be a when (and not C, CM, CD, CV)")
     }
 
